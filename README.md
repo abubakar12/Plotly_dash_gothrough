@@ -8,11 +8,11 @@
 ![](images/table_dash.PNG)
 
 #graphs_interactive_countries.py
-![](images/countries_graphs.PNG.png)
+![](images/countries_graphs.PNG)
 
 
 #dash_markdown_text.py
-![](images/markdown.PNGg)
+![](images/markdown.PNG)
 
 
 
