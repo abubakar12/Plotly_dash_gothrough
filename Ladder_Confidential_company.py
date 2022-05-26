@@ -4,10 +4,10 @@ import pandas as pd
 
 df = pd.read_csv(r'C:\Users\hp\Desktop\plotly_dash\Confidential_company\Ladder_confidential_company.csv')
 
-df["Date_of_pred"]=pd.to_datetime(df["TYear"].astype(str)+"-"+\
+df["Date_pred"]=pd.to_datetime(df["TYear"].astype(str)+"-"+\
                                   df["TMonth"].astype(str),format="%Y-%m")
 
-df["Date_pred"]=pd.to_datetime(df["YearOfPrediction"].astype(str)+"-"+\
+df["Date_of_pred"]=pd.to_datetime(df["YearOfPrediction"].astype(str)+"-"+\
                                   df["MonthOfPrediction"].astype(str),\
                                       format="%Y-%m") 
 
@@ -18,9 +18,25 @@ df.drop(["TYear","TMonth","YearOfPrediction","MonthOfPrediction"],1,inplace=True
 df["Date_of_pred"]=df["Date_of_pred"].astype(str)
 df["Date_pred"]=df["Date_pred"].astype(str)
 
-df_copy=pd.pivot_table(df,index="Date_of_pred",values="Projected Sales",\
-                       columns="Date_pred").reset_index()
+prjected_copy=pd.pivot_table(df,index="Date_of_pred",\
+                        values="Projected Sales",\
+                        columns="Date_pred").reset_index()
     
+actual_sales_copy=pd.pivot_table(df,index="Date_of_pred",\
+                        values="Projected Sales",\
+                        columns="Date_pred").reset_index()
+    
+dawlance_pred_copy=pd.pivot_table(df,index="Date_of_pred",\
+                        values="Dawlance Prediction",\
+                        columns="Date_pred").reset_index()
+    
+new_file=
+    
+
+# df_copy=pd.pivot_table(df,index="Date_of_pred",\
+#                         values=["Projected Sales",'Actual Sales'],\
+#                         columns="Date_pred")
+   
 app = Dash(__name__)
 
 app.layout = dash_table.DataTable(df_copy.to_dict('records'), \
