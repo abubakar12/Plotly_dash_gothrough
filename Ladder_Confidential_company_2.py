@@ -28,6 +28,8 @@ df["Date_pred"] = df["Date_pred"].astype(str)
 # df["Dawlance Prediction"]=df["Dawlance Prediction"].astype(str)
 
 
+
+
 df = df.fillna(0)
 
 projected_copy = pd.pivot_table(df, index="Date_of_pred",
