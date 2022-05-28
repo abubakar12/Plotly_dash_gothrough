@@ -42,20 +42,20 @@ df = df.fillna(0)
 df_copy = df[df.Product=='DF']
 
 projected_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                values="Projected Sales",
+                                values="Projected Sales",aggfunc='sum',
                                 columns="Date_pred")
 projected_copy.columns.name=None
 projected_copy=projected_copy.reset_index().fillna('')
 
 actual_sales_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                   values="Actual Sales",
+                                   values="Actual Sales",aggfunc='sum',
                                    columns="Date_pred")
 actual_sales_copy.columns.name=None
 actual_sales_copy=actual_sales_copy.reset_index().fillna('') 
 
 
 dawlance_pred_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                    values="Dawlance Prediction",
+                                    values="Dawlance Prediction",aggfunc='sum',
                                     columns="Date_pred")
 dawlance_pred_copy.columns.name=None
 dawlance_pred_copy=dawlance_pred_copy.reset_index().fillna('') 
@@ -112,20 +112,20 @@ def update_figure(product):
     df_copy = df[df.Product==product]
     
     projected_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                    values="Projected Sales",
+                                    values="Projected Sales",aggfunc='sum',
                                     columns="Date_pred")
     projected_copy.columns.name=None
     projected_copy=projected_copy.reset_index().fillna('')
 
     actual_sales_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                       values="Actual Sales",
+                                       values="Actual Sales",aggfunc='sum',
                                        columns="Date_pred")
     actual_sales_copy.columns.name=None
     actual_sales_copy=actual_sales_copy.reset_index().fillna('') 
 
 
     dawlance_pred_copy = pd.pivot_table(df_copy, index="Date_of_pred",
-                                        values="Dawlance Prediction",
+                                        values="Dawlance Prediction",aggfunc='sum',
                                         columns="Date_pred")
     dawlance_pred_copy.columns.name=None
     dawlance_pred_copy=dawlance_pred_copy.reset_index().fillna('') 
