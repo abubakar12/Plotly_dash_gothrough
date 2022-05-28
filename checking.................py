@@ -14,10 +14,6 @@ import dash_table
 import pandas as pd
 import re
 
-
-
-
-
 df = pd.read_csv(
     r'C:\Users\hp\Desktop\plotly_dash\Confidential_company\Ladder_confidential_company.csv')
 mapping_material=pd.read_excel(r"C:\Users\hp\Desktop\plotly_dash\Confidential_company\Material_products_mapping.xlsx")
@@ -65,30 +61,49 @@ new_file = projected_copy.astype(str).set_index("Date_of_pred")+"\n"+actual_sale
 
 new_file = new_file.astype(str)+"\n"+dawlance_pred_copy.astype(str).set_index("Date_of_pred")
 
-def format_cell(cell):
-    values = cell.split("\n")
-    colors = ["blue", "red", "green"]
-    styled = [f"<div style='color: {c}'>{v}</div>" for v, c in zip(values, colors)]
-    return "".join(styled)
-
-
 new_file=new_file.reset_index()
-for column in new_file.columns:
-    new_file[column] = new_file[column].apply(format_cell)
-
 
 app = dash.Dash(__name__)
 
+a=new_file.to_dict("records")
+
+for i in a:
+    print(i)
+
+a=list(i.values())
+a[-1].split('\n')
+        
+
+def style_row_by_top_values(df, nlargest=2):
+    print(df)
+    columns = df.columns
+    styles = []
+    colors =['red','blue','yellow']
+    for i in range(len(df.records)):
+        row = df.loc[i, numeric_columns].sort_values(ascending=False)
+        i.split('\n') ['a','b','c']
+        for j in range(nlargest):
+            styles.append({
+                'if': {
+                    'filter_query': '{{id}} = {}'.format(i), # a
+                    'column_id': row.keys()[j]
+                },
+                'color': {c} for c in colors;
+            })
+    return styles
 
 
 
 app.layout = html.Div([
     dash_table.DataTable(
         id="table",
-        columns=[{"name": i, "id": i, "presentation": "markdown"} for i in new_file.columns],
-        markdown_options={"html": True},
+        columns=[{"name": i, "id": i} for i in new_file.columns],
+        let colors =["red","black"]
         data=new_file.to_dict("records"),
-        style_cell={"whiteSpace": "pre-line"},
+        #style_cell={"color":"blue" },
+            style_data_conditional=style_row_by_top_values()
+       # style_cell={"whiteSpace": "pre-line" ,"color":"blue" },
+
     #     style_cell_conditional=[
     # {
     #     'if': {'column_id': 'Region'},
@@ -134,11 +149,10 @@ def update_figure(product):
     new_file = projected_copy.astype(str).set_index("Date_of_pred")+"\n"+actual_sales_copy.astype(str).set_index("Date_of_pred")
 
     new_file = new_file.astype(str)+"\n"+dawlance_pred_copy.astype(str).set_index("Date_of_pred")
-    
-    new_file=new_file.reset_index()
-    for column in new_file.columns:
-        new_file[column] = new_file[column].apply(format_cell)
 
+    new_file=new_file.reset_index()
+     arr =[]
+    print(new_file)
 
     return new_file.to_dict("records")
     
