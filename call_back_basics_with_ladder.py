@@ -36,10 +36,15 @@ df.drop(["TYear", "TMonth", "YearOfPrediction",
 df["Date_of_pred"] = df["Date_of_pred"].astype(str)
 df["Date_pred"] = df["Date_pred"].astype(str)
 
+df["Projected Sales"]=df["Projected Sales"].round()
+df["Actual Sales"]=df["Actual Sales"].round()
+df["Dawlance Prediction"]=df["Dawlance Prediction"].round()
+
 df = df.fillna(0)
 
-
-df_copy = df[df.Product=='DF']
+material_all=df.Material.unique()
+material_all=np.append(material_all,"ALL")
+df_copy = (df[(df.Product=='DF')|(df.Material.isin(material_all))])
 
 projected_copy = pd.pivot_table(df_copy, index="Date_of_pred",
                                 values="Projected Sales",aggfunc='sum',
@@ -98,18 +103,30 @@ app.layout = html.Div([
     ),
     
 
-    dcc.RadioItems(
+    dcc.Dropdown(
         list(df["Product"].unique()),
         'DF',
         id='Product-radio',
+    ),
+    dcc.Dropdown(
+        list(material_all),
+        'ALL',
+        id='Material-radio',
     ),
 ])
 
 @app.callback(
     Output('table', 'data'),
-    Input('Product-radio', 'value'))
-def update_figure(product):
-    df_copy = df[df.Product==product]
+    Input('Product-radio', 'value'),
+    Input('Material-radio', 'value'))
+def update_figure(product,material):
+    
+    if material=="ALL":
+        df_copy = (df[(df.Product==product)&(df.Material.isin(material_all))])
+    else:   
+        df_copy = (df[(df.Product==product)&(df.Material==material)])
+ 
+    
     
     projected_copy = pd.pivot_table(df_copy, index="Date_of_pred",
                                     values="Projected Sales",aggfunc='sum',
@@ -139,7 +156,7 @@ def update_figure(product):
     for column in new_file.columns:
         new_file[column] = new_file[column].apply(format_cell)
 
-
+     
     return new_file.to_dict("records")
     
 
